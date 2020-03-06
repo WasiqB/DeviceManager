@@ -1,4 +1,4 @@
-package com.github.iOS;
+package com.github.ios;
 
 import com.github.device.Device;
 import com.github.interfaces.Manager;

@@ -2,7 +2,7 @@ package com.github.device;
 
 
 import com.github.android.AndroidManager;
-import com.github.iOS.IOSManager;
+import com.github.ios.IOSManager;
 import com.github.interfaces.Manager;
 
 import java.util.ArrayList;

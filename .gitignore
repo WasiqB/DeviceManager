@@ -1,3 +1,5 @@
 target/
 iOSDeviceManager.iml
 .idea/
+*.iml
+.DS_Store
