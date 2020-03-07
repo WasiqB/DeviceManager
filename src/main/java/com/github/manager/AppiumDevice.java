@@ -3,7 +3,6 @@ package com.github.manager;
 import com.github.device.Device;
 
 public class AppiumDevice {
-
     private static final String AVAILABLE = "AVAILABLE";
     private static final String BUSY      = "BUSY";
     private              Device device;

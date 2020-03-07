@@ -23,7 +23,6 @@ import org.testng.ITestResult;
  * Created by saikrisv on 24/01/17.
  */
 public class TestLogger extends Helpers {
-
     private File                        logFile;
     private ThreadLocal<List<LogEntry>> logEntries      = new ThreadLocal<>();
     private ThreadLocal<PrintWriter>    log_file_writer = new ThreadLocal<>();
@@ -59,8 +58,8 @@ public class TestLogger extends Helpers {
                 .get("logcat")
                 .filter(Level.ALL);
             logEntries.set(logcat);
-            logFile = new File(System.getProperty(
-                "user.dir") + FileLocations.ADB_LOGS_DIRECTORY + udid + "__" + methodName + ".txt");
+            logFile = new File(
+                System.getProperty("user.dir") + FileLocations.ADB_LOGS_DIRECTORY + udid + "__" + methodName + ".txt");
             log_file_writer.set(new PrintWriter(logFile));
         }
         if ("true".equalsIgnoreCase(System.getenv("VIDEO_LOGS"))) {
@@ -73,7 +72,8 @@ public class TestLogger extends Helpers {
     private void setDescription(ITestResult iTestResult) {
         Optional<String> originalDescription = Optional.ofNullable(iTestResult.getMethod()
             .getDescription());
-        String description = "Platform: " + AppiumDeviceManager.getMobilePlatform() + " UDID: " + AppiumDeviceManager.getAppiumDevice()
+        String description =
+            "Platform: " + AppiumDeviceManager.getMobilePlatform() + " UDID: " + AppiumDeviceManager.getAppiumDevice()
             .getDevice()
             .getUdid() + " Name: " + AppiumDeviceManager.getAppiumDevice()
             .getDevice()
@@ -98,8 +98,7 @@ public class TestLogger extends Helpers {
         }
     }
 
-    public HashMap<String, String> endLogging(ITestResult result, String deviceModel)
-        throws Exception {
+    public HashMap<String, String> endLogging(ITestResult result, String deviceModel) throws Exception {
         HashMap<String, String> logs = new HashMap<>();
         String className = result.getInstance()
             .getClass()
@@ -137,8 +136,7 @@ public class TestLogger extends Helpers {
                 .getMethodName() + "/" + result.getMethod()
                 .getMethodName() + ".mp4");
 
-            String videoPath = System.getProperty(
-                "user.dir") + FileLocations.OUTPUT_DIRECTORY + getVideoPath();
+            String videoPath = System.getProperty("user.dir") + FileLocations.OUTPUT_DIRECTORY + getVideoPath();
             if (new File(videoPath).exists()) {
                 ReportPortal.emitLog("Video Logs", "Trace", new Date(), new File(videoPath));
                 logs.put("videoLogs", baseHostUrl + "/" + getVideoPath());
@@ -154,8 +152,7 @@ public class TestLogger extends Helpers {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            String screenFailure = System.getProperty(
-                "user.dir") + FileLocations.OUTPUT_DIRECTORY + failedScreen;
+            String screenFailure = System.getProperty("user.dir") + FileLocations.OUTPUT_DIRECTORY + failedScreen;
             if (new File(screenFailure).exists()) {
                 screenShotFailure = screenShotFailure + "/" + failedScreen;
                 logs.put("screenShotFailure", screenShotFailure);
@@ -178,8 +175,7 @@ public class TestLogger extends Helpers {
             .getCapability("browserName") == null;
     }
 
-    private void stopViewRecording(ITestResult result, String className)
-        throws IOException, InterruptedException {
+    private void stopViewRecording(ITestResult result, String className) throws IOException, InterruptedException {
         if ("true".equalsIgnoreCase(System.getenv("VIDEO_LOGS"))) {
             IScreenRecord videoRecording = AppiumScreenRecordFactory.recordScreen();
             videoRecording.stopVideoRecording(className, result.getMethod()
@@ -190,8 +186,7 @@ public class TestLogger extends Helpers {
     }
 
     private void deleteSuccessVideos(ITestResult result, String className) {
-        if (result.isSuccess() && (null != System.getenv("KEEP_ALL_VIDEOS")) && !(System.getenv(
-            "KEEP_ALL_VIDEOS")
+        if (result.isSuccess() && (null != System.getenv("KEEP_ALL_VIDEOS")) && !(System.getenv("KEEP_ALL_VIDEOS")
             .equalsIgnoreCase("true"))) {
             File videoFile = new File(System.getProperty(
                 "user.dir") + FileLocations.ANDROID_SCREENSHOTS_DIRECTORY + AppiumDeviceManager.getAppiumDevice()
@@ -207,8 +202,8 @@ public class TestLogger extends Helpers {
 
     private void handleTestFailure(ITestResult result, String className, String deviceModel) {
         if (result.getStatus() == ITestResult.FAILURE) {
-            String screenShotNameWithTimeStamp = screenShotManager.captureScreenShot(
-                result.getStatus(), result.getInstance()
+            String screenShotNameWithTimeStamp = screenShotManager.captureScreenShot(result.getStatus(),
+                result.getInstance()
                     .getClass()
                     .getSimpleName(), result.getMethod()
                     .getMethodName(), result.getMethod()

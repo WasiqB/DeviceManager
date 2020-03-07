@@ -40,7 +40,7 @@ public final class AppiumParallelTestListener extends Helpers
     private static ThreadLocal<ITestNGMethod> currentMethods = new ThreadLocal<>();
     List<ITestNGListener> iTestNGListeners;
 
-    public AppiumParallelTestListener() throws Exception {
+    public AppiumParallelTestListener() {
         testLogger = new TestLogger();
         appiumServerManager = new AppiumServerManager();
         deviceAllocationManager = DeviceAllocationManager.getInstance();
@@ -68,8 +68,7 @@ public final class AppiumParallelTestListener extends Helpers
         if (annotation != null && AppiumDriverManager.getDriver()
             .getPlatformName()
             .equalsIgnoreCase(annotation.platform())) {
-            throw new SkipException(
-                "Skipped because property was set to :::" + annotation.platform());
+            throw new SkipException("Skipped because property was set to :::" + annotation.platform());
         }
         new TestExecutionContext(iInvokedMethod.getTestMethod()
             .getMethodName());
@@ -91,10 +90,9 @@ public final class AppiumParallelTestListener extends Helpers
         json.put("model", new AppiumDeviceManager().getDeviceModel());
         try {
             if (testResult.getStatus() == ITestResult.SUCCESS || testResult.getStatus() == ITestResult.FAILURE) {
-                HashMap<String, String> logs = testLogger.endLogging(testResult,
-                    AppiumDeviceManager.getAppiumDevice()
-                        .getDevice()
-                        .getDeviceModel());
+                HashMap<String, String> logs = testLogger.endLogging(testResult, AppiumDeviceManager.getAppiumDevice()
+                    .getDevice()
+                    .getDeviceModel());
                 if (atdHost.isPresent() && atdPort.isPresent()) {
                     String postTestResults = "http://" + atdHost.get() + ":" + atdPort.get() + "/testresults";
                     sendResultsToAtdService(testResult, "Completed", postTestResults, logs);

@@ -1,5 +1,7 @@
 package com.github.manager;
 
+import static com.github.utils.ConfigFileManager.CAPS;
+
 import com.github.capability.CapabilityManager;
 
 public class AppiumManagerFactory {

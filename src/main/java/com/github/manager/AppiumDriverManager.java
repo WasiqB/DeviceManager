@@ -27,8 +27,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 public class AppiumDriverManager {
     private static       ThreadLocal<AppiumDriver> appiumDriver = new ThreadLocal<>();
     private              DesiredCapabilityBuilder  desiredCapabilityBuilder;
-    private static final Logger                    LOGGER       = Logger.getLogger(
-        Class.class.getName());
+    private static final Logger                    LOGGER       = Logger.getLogger(Class.class.getName());
 
     public AppiumDriverManager() {
         desiredCapabilityBuilder = new DesiredCapabilityBuilder();
@@ -43,8 +42,7 @@ public class AppiumDriverManager {
     }
 
     @Synchronized
-    private AppiumDriver<MobileElement> initialiseDriver(Optional<DesiredCapabilities> capabilities)
-        throws Exception {
+    private AppiumDriver<MobileElement> initialiseDriver(Optional<DesiredCapabilities> capabilities) throws Exception {
         AppiumDriver currentDriverSession;
         DesiredCapabilities desiredCapabilities = capabilities.get();
         String isChromDriverPath = (String) desiredCapabilities.getCapability(
@@ -52,8 +50,7 @@ public class AppiumDriverManager {
         boolean isPlatformAndroid = AppiumDeviceManager.getMobilePlatform()
             .name()
             .equalsIgnoreCase("android");
-        addChromeDriverPathIfChromeOnDevice(desiredCapabilities, isChromDriverPath,
-            isPlatformAndroid);
+        addChromeDriverPathIfChromeOnDevice(desiredCapabilities, isChromDriverPath, isPlatformAndroid);
         LOGGER.info("Capabilities: " + desiredCapabilities.toString());
         String remoteWDHubIP = getRemoteWDHubIP();
         if (!AppiumDeviceManager.getAppiumDevice()
@@ -82,14 +79,13 @@ public class AppiumDriverManager {
         return currentDriverSession;
     }
 
-    private void addChromeDriverPathIfChromeOnDevice(DesiredCapabilities desiredCapabilities,
-        String isChromDriverPath, boolean isPlatformAndroid) throws IOException {
+    private void addChromeDriverPathIfChromeOnDevice(DesiredCapabilities desiredCapabilities, String isChromDriverPath,
+        boolean isPlatformAndroid) throws IOException {
         if (isPlatformAndroid && (null == isChromDriverPath)) {
             String udid = (String) desiredCapabilities.getCapability("udid");
             String pathForChromDriverForDevice = getPathForChromeDriver(udid);
             if (null != pathForChromDriverForDevice) {
-                desiredCapabilities.setCapability(
-                    AndroidMobileCapabilityType.CHROMEDRIVER_EXECUTABLE,
+                desiredCapabilities.setCapability(AndroidMobileCapabilityType.CHROMEDRIVER_EXECUTABLE,
                     pathForChromDriverForDevice);
             }
         }
@@ -140,8 +136,7 @@ public class AppiumDriverManager {
     }
 
     @Synchronized
-    private void startAppiumDriverInstance(Optional<DesiredCapabilities> desiredCapabilities)
-        throws Exception {
+    private void startAppiumDriverInstance(Optional<DesiredCapabilities> desiredCapabilities) throws Exception {
         AppiumDriver<MobileElement> currentDriverSession;
         currentDriverSession = initialiseDriver(desiredCapabilities);
         AppiumDriverManager.setDriver(currentDriverSession);

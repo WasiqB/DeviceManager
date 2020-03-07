@@ -1,5 +1,7 @@
 package com.github.utils;
 
+import static java.util.Objects.requireNonNull;
+
 import java.io.File;
 import java.io.FileFilter;
 import java.util.Date;
@@ -13,9 +15,8 @@ import org.json.JSONObject;
 import org.testng.ITestResult;
 
 public class FileFilterParser extends Helpers {
-
-    private Map<String, Map<String, String>> getFilesFromDirectory(String directoryLocation,
-        String[] fileTypes, String udid, ITestResult iTestResult) throws Exception {
+    private Map<String, Map<String, String>> getFilesFromDirectory(String directoryLocation, String[] fileTypes,
+        String udid, ITestResult iTestResult) throws Exception {
         File file = new File(directoryLocation);
         if (!file.exists()) {
             throw new Exception(directoryLocation + " does not exist");
@@ -44,8 +45,8 @@ public class FileFilterParser extends Helpers {
         return results;
     }
 
-    private void getFilesFromDirectory(File inputDirectory, FileFilter filter,
-        Map<String, Map<String, String>> results, String deviceUDID, ITestResult iTestResult) {
+    private void getFilesFromDirectory(File inputDirectory, FileFilter filter, Map<String, Map<String, String>> results,
+        String deviceUDID, ITestResult iTestResult) {
         File[] files = inputDirectory.listFiles(filter);
         for (File file : files) {
             if (file.isDirectory()) {
@@ -60,8 +61,7 @@ public class FileFilterParser extends Helpers {
                     Map<String, String> values = results.get(inputDirectory.getName());
                     String screenName = file.getName()
                         .split("-")[1];
-                    values.put(screenName.substring(0, screenName.indexOf("_")),
-                        file.getAbsolutePath());
+                    values.put(screenName.substring(0, screenName.indexOf("_")), file.getAbsolutePath());
                     results.put(inputDirectory.getName(), values);
                 }
             }
@@ -75,14 +75,13 @@ public class FileFilterParser extends Helpers {
         FileFilterParser fileFilterParser = new FileFilterParser();
         Map<String, Map<String, String>> filesFromDirectory = null;
         try {
-            filesFromDirectory = fileFilterParser.getFilesFromDirectory(directoryLocation,
-                fileTypes, udid, iTestResult);
+            filesFromDirectory = fileFilterParser.getFilesFromDirectory(directoryLocation, fileTypes, udid,
+                iTestResult);
         } catch (Exception e) {
             e.printStackTrace();
         }
         JSONObject list = new JSONObject();
-        filesFromDirectory.forEach((key, values) -> {
-
+        requireNonNull(filesFromDirectory).forEach((key, values) -> {
             values.forEach((screenName, s) -> {
                 if (s.contains("results") || s.contains("framed")) {
                     String path = s.split("target")[1];

@@ -1,15 +1,11 @@
 package com.github.device;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
+@AllArgsConstructor
 @Data
 public class DeviceType {
     private String name;
     private String identifier;
-
-    public DeviceType(String name, String identifier) {
-        this.name = name;
-        this.identifier = identifier;
-    }
-
 }

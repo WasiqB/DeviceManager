@@ -36,11 +36,9 @@ public class HostMachineDeviceManager {
     private HostMachineDeviceManager() {
         try {
             capabilityManager = CapabilityManager.getInstance();
-            atdHost = CapabilityManager.getInstance()
-                .getMongoDbHostAndPort()
+            atdHost = capabilityManager.getMongoDbHostAndPort()
                 .get("atdHost");
-            atdPort = CapabilityManager.getInstance()
-                .getMongoDbHostAndPort()
+            atdPort = capabilityManager.getMongoDbHostAndPort()
                 .get("atdPort");
             initializeDevicesByHost();
         } catch (Exception e) {
@@ -59,8 +57,7 @@ public class HostMachineDeviceManager {
         if (devicesByHost == null) {
             try {
                 Map<String, List<AppiumDevice>> allDevices = getDevices();
-                Map<String, List<AppiumDevice>> devicesFilteredByPlatform = filterByDevicePlatform(
-                    allDevices);
+                Map<String, List<AppiumDevice>> devicesFilteredByPlatform = filterByDevicePlatform(allDevices);
                 Map<String, List<AppiumDevice>> devicesFilteredByUserSpecified = filterByUserSpecifiedDevices(
                     devicesFilteredByPlatform);
                 devicesByHost = new DevicesByHost(devicesFilteredByUserSpecified);
@@ -73,8 +70,8 @@ public class HostMachineDeviceManager {
                 api.post("http://" + atdHost + ":" + atdPort + "/devices",
                     new ObjectMapper().writerWithDefaultPrettyPrinter()
                         .writeValueAsString(devicesByHost));
-                api.post("http://" + atdHost + ":" + atdPort + "/envInfo",
-                    new TestStatusManager().envInfo(devicesByHost.getAllDevices()
+                api.post("http://" + atdHost + ":" + atdPort + "/envInfo", new TestStatusManager().envInfo(
+                    devicesByHost.getAllDevices()
                         .size()));
                 api.post("http://" + atdHost + ":" + atdPort + "/envInfo/appium/logs",
                     new TestStatusManager().appiumLogs(devicesByHost));
@@ -85,9 +82,7 @@ public class HostMachineDeviceManager {
     private Map<String, List<AppiumDevice>> filterByUserSpecifiedDevices(
         Map<String, List<AppiumDevice>> devicesByHost) {
         String udidsString = System.getenv(UDIDS);
-        List<String> udids = udidsString == null
-            ? Collections.emptyList()
-            : Arrays.asList(udidsString.split(","));
+        List<String> udids = udidsString == null ? Collections.emptyList() : Arrays.asList(udidsString.split(","));
 
         if (udids.size() == 0) {
             return devicesByHost;
@@ -106,8 +101,7 @@ public class HostMachineDeviceManager {
         }
     }
 
-    private Map<String, List<AppiumDevice>> filterByDevicePlatform(
-        Map<String, List<AppiumDevice>> devicesByHost) {
+    private Map<String, List<AppiumDevice>> filterByDevicePlatform(Map<String, List<AppiumDevice>> devicesByHost) {
         String platform = System.getenv(PLATFORM);
         if (platform.equalsIgnoreCase(OSType.BOTH.name())) {
             return devicesByHost;
@@ -131,8 +125,7 @@ public class HostMachineDeviceManager {
         return devicesByHost;
     }
 
-    private List<AppiumDevice> getDevicesByIP(String ip, String platform,
-        JSONObject hostMachineJson) throws Exception {
+    private List<AppiumDevice> getDevicesByIP(String ip, String platform, JSONObject hostMachineJson) throws Exception {
         IAppiumManager appiumManager = AppiumManagerFactory.getAppiumManager(ip);
         List<Device> devices = appiumManager.getDevices(ip, platform);
         if ((!platform.equalsIgnoreCase(
@@ -163,8 +156,7 @@ public class HostMachineDeviceManager {
                     }
                 } else if (machineIPs instanceof String) {
                     String ip = hostMachineJson.getString("machineIP");
-                    if (CapabilityManager.getInstance()
-                        .isCloud(ip)) {
+                    if (capabilityManager.isCloud(ip)) {
                         List<Device> device = new ArrayList<>();
                         JSONObject cloud = capabilityManager.getCapabilityObjectFromKey("cloud");
                         cloud.toMap()
@@ -183,8 +175,7 @@ public class HostMachineDeviceManager {
                         devicesByHost.put(ip, getAppiumDevices(ip, device));
                     } else {
                         if (capabilityManager.getCapabilityObjectFromKey("genycloud") != null) {
-                            JSONObject cloud = capabilityManager.getCapabilityObjectFromKey(
-                                "genycloud");
+                            JSONObject cloud = capabilityManager.getCapabilityObjectFromKey("genycloud");
                             for (Map.Entry<String, Object> entry : cloud.toMap()
                                 .entrySet()) {
                                 String key = entry.getKey();
@@ -227,8 +218,7 @@ public class HostMachineDeviceManager {
         };
     }
 
-    private List<Device> getSimulatorsToBoot(String machineIP, JSONArray simulators)
-        throws Exception {
+    private List<Device> getSimulatorsToBoot(String machineIP, JSONArray simulators) throws Exception {
         List<Device> devices = new ArrayList<>();
         for (Object simulator : simulators) {
             JSONObject simulatorJson = (JSONObject) simulator;

@@ -1,12 +1,11 @@
 package com.github.interfaces;
 
-import com.github.device.Device;
-
 import java.io.IOException;
 import java.util.List;
 
-public interface ISimulatorManager {
+import com.github.device.Device;
 
+public interface ISimulatorManager {
     String getSimulatorState(String deviceName, String osVersion, String osType) throws Throwable;
 
     Device getDevice(String deviceName, String osVersion, String osType) throws InterruptedException, IOException;
@@ -19,7 +18,8 @@ public interface ISimulatorManager {
 
     void createSimulator(String simName, String deviceName, String osVersion, String osType) throws Throwable;
 
-    void uninstallAppFromSimulator(String deviceName, String osVersion, String osType, String bundleID) throws Throwable;
+    void uninstallAppFromSimulator(String deviceName, String osVersion, String osType, String bundleID)
+        throws Throwable;
 
     void installAppOnSimulator(String deviceName, String osVersion, String osType, String appPath) throws Throwable;
 
@@ -27,7 +27,8 @@ public interface ISimulatorManager {
 
     Device getSimulatorDetailsFromUDID(String UDID) throws IOException, InterruptedException;
 
-    void captureScreenshot(String UDID, String fileName,String fileDestination, String format) throws IOException, InterruptedException;
+    void captureScreenshot(String UDID, String fileName, String fileDestination, String format)
+        throws IOException, InterruptedException;
 
     boolean shutDownAllBootedSimulators() throws IOException, InterruptedException;
 

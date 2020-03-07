@@ -12,10 +12,6 @@ public class IOSDeviceConfiguration {
     public final static int IOS_UDID_LENGTH = 40;
     public final static int SIM_UDID_LENGTH = 36;
 
-    public IOSDeviceConfiguration() {
-
-    }
-
     public void setValidDevices(List<String> deviceID) {
         deviceID.forEach(deviceList -> {
             if (deviceList.length() == IOSDeviceConfiguration.IOS_UDID_LENGTH) {

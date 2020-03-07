@@ -1,28 +1,29 @@
 package com.github.device;
 
-import lombok.Data;
-import org.json.JSONObject;
-
 import java.util.HashMap;
 import java.util.Map;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.json.JSONObject;
+
+@NoArgsConstructor
 @Data
 public class Device {
-
-    private String udid;
-    private String name;
-    private String state = "Not Supported";
+    private String  udid;
+    private String  name;
+    private String  state       = "Not Supported";
     private boolean isAvailable;
-    private String osVersion;
-    private String os = "Not Supported";
-    private String deviceType = "Not Supported";
-    private String brand = "Not Supported";
-    private String apiLevel = "Not Supported";
+    private String  osVersion;
+    private String  os          = "Not Supported";
+    private String  deviceType  = "Not Supported";
+    private String  brand       = "Not Supported";
+    private String  apiLevel    = "Not Supported";
     private boolean isDevice;
-    private String deviceModel = "Not Supported";
-    private String screenSize;
-    private String deviceManufacturer;
-    private boolean isCloud = false;
+    private String  deviceModel = "Not Supported";
+    private String  screenSize;
+    private String  deviceManufacturer;
+    private boolean isCloud     = false;
 
     private static Map<String, String> deviceIdentifier = new HashMap<>();
 
@@ -48,7 +49,7 @@ public class Device {
         this.deviceType = deviceType;
         getOSAndVersion(deviceType);
         this.deviceModel = deviceIdentifier.getOrDefault(this.name, "Not Supported");
-        this.deviceManufacturer= "apple";
+        this.deviceManufacturer = "apple";
     }
 
     private void getOSAndVersion(String deviceType) {
@@ -66,9 +67,7 @@ public class Device {
                 }
             }
         }
-
     }
-
 
     public Device(JSONObject deviceJson) {
         this.udid = deviceJson.getString("udid");
@@ -80,9 +79,6 @@ public class Device {
         this.deviceModel = deviceJson.getString("deviceModel");
         this.screenSize = deviceJson.getString("screenSize");
         this.os = deviceJson.getString("os");
-        this.deviceManufacturer=deviceJson.getString("deviceManufacturer");
-    }
-
-    public Device() {
+        this.deviceManufacturer = deviceJson.getString("deviceManufacturer");
     }
 }

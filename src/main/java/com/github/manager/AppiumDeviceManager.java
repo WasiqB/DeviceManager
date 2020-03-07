@@ -7,7 +7,6 @@ import com.github.utils.MobilePlatform;
  * Device Manager - Handles all device related information's e.g UDID, Model, etc
  */
 public class AppiumDeviceManager {
-
     private static ThreadLocal<AppiumDevice>  appiumDevice = new ThreadLocal<>();
     private        AndroidDeviceConfiguration androidDeviceConfiguration;
 
@@ -29,9 +28,8 @@ public class AppiumDeviceManager {
             .getOs();
         if (os.equalsIgnoreCase("ios")) {
             return MobilePlatform.IOS;
-        } else {
-            return MobilePlatform.ANDROID;
         }
+        return MobilePlatform.ANDROID;
     }
 
     public String getDeviceModel() {

@@ -16,20 +16,20 @@ import io.appium.java_client.ios.IOSDriver;
 import org.apache.commons.io.FileUtils;
 
 public class AppiumScreenRecorder extends Helpers implements IScreenRecord {
-
     @Override
-    public void stopVideoRecording(String className, String methodName, String videoFileName)
-        throws IOException {
+    public void stopVideoRecording(String className, String methodName, String videoFileName) throws IOException {
         String videoPath = System.getProperty("user.dir");
         if (AppiumDeviceManager.getMobilePlatform()
             .equals(MobilePlatform.IOS)) {
-            String videoLocationIOS = videoPath + FileLocations.IOS_SCREENSHOTS_DIRECTORY + AppiumDeviceManager.getAppiumDevice()
+            String videoLocationIOS =
+                videoPath + FileLocations.IOS_SCREENSHOTS_DIRECTORY + AppiumDeviceManager.getAppiumDevice()
                 .getDevice()
                 .getUdid() + "/" + getCurrentTestClassName() + "/" + getCurrentTestMethodName() + "/" + getCurrentTestMethodName() + ".mp4";
             String base64 = ((IOSDriver) AppiumDriverManager.getDriver()).stopRecordingScreen();
             saveVideo(base64, videoLocationIOS);
         } else {
-            String videoLocationAndroid = videoPath + FileLocations.ANDROID_SCREENSHOTS_DIRECTORY + AppiumDeviceManager.getAppiumDevice()
+            String videoLocationAndroid =
+                videoPath + FileLocations.ANDROID_SCREENSHOTS_DIRECTORY + AppiumDeviceManager.getAppiumDevice()
                 .getDevice()
                 .getUdid() + "/" + getCurrentTestClassName() + "/" + getCurrentTestMethodName() + "/" + getCurrentTestMethodName() + ".mp4";
             String base64 = ((AndroidDriver) AppiumDriverManager.getDriver()).stopRecordingScreen();

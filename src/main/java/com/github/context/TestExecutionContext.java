@@ -12,8 +12,7 @@ public class TestExecutionContext {
     private final        AppiumDriver            driver;
     private final        HashMap<String, Object> testExecutionState;
     private              String                  deviceId = "NOT-YET-SET";
-    private static final Logger                  LOGGER   = Logger.getLogger(
-        Class.class.getSimpleName());
+    private static final Logger                  LOGGER   = Logger.getLogger(Class.class.getSimpleName());
 
     public TestExecutionContext(String testName) {
         SessionContext.addContext(Thread.currentThread()

@@ -18,8 +18,12 @@ import org.json.JSONObject;
 import org.testng.ITestResult;
 
 public class TestStatusManager extends Helpers {
-    public String getReportEventJson(AppiumDevice appiumDevice, String testStatus,
-        ITestResult iTestResult, HashMap<String, String> logs) throws JsonProcessingException {
+    public TestStatusManager() {
+        super();
+    }
+
+    public String getReportEventJson(AppiumDevice appiumDevice, String testStatus, ITestResult iTestResult,
+        HashMap<String, String> logs) throws JsonProcessingException {
         DateFormat dateFormat = new SimpleDateFormat("hh:mm:ss a");
         JSONObject test = new JSONObject();
         JSONArray dataProvider = new JSONArray();
@@ -48,9 +52,8 @@ public class TestStatusManager extends Helpers {
             String startTime = dateFormat.format(new Date(iTestResult.getStartMillis()));
             test.put("endTime", endTime);
             test.put("startTime", startTime);
-            test.put("screenPath", new FileFilterParser().getScreenShotPaths(
-                appiumDevice.getDevice()
-                    .getUdid(), iTestResult));
+            test.put("screenPath", new FileFilterParser().getScreenShotPaths(appiumDevice.getDevice()
+                .getUdid(), iTestResult));
         }
         String deviceDetails = new ObjectMapper().writerWithDefaultPrettyPrinter()
             .writeValueAsString(appiumDevice);
@@ -76,17 +79,15 @@ public class TestStatusManager extends Helpers {
             .forEach(host -> {
                 if (host.equals("127.0.0.1")) {
                     try {
-                        logs.put(host,
-                            "http://" + getHostMachineIpAddress() + ":" + getRemoteAppiumManagerPort(
-                                host) + "/appiumlogs/appium_logs.txt");
+                        logs.put(host, "http://" + getHostMachineIpAddress() + ":" + getRemoteAppiumManagerPort(
+                            host) + "/appiumlogs/appium_logs.txt");
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 } else {
                     try {
-                        logs.put(host,
-                            "http://" + getHostMachineIpAddress() + ":" + getRemoteAppiumManagerPort(
-                                host) + "/appium/logs");
+                        logs.put(host, "http://" + getHostMachineIpAddress() + ":" + getRemoteAppiumManagerPort(
+                            host) + "/appium/logs");
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

@@ -82,5 +82,4 @@ public class DeviceAllocationManager extends ArtifactsUploader {
         LOGGER.info("Allocated Device " + appiumDevice + " for Execution");
         AppiumDeviceManager.setDevice(appiumDevice);
     }
-
 }

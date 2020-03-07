@@ -49,8 +49,8 @@ public class Helpers {
         }
     }
 
-    protected void queueBeforeInvocationListeners(IInvokedMethod iInvokedMethod,
-        ITestResult iTestResult, List<ITestNGListener> listeners) {
+    protected void queueBeforeInvocationListeners(IInvokedMethod iInvokedMethod, ITestResult iTestResult,
+        List<ITestNGListener> listeners) {
         for (ITestNGListener listener : listeners) {
             //Lets filter out only IInvokedMethodListener instances.
             if (listener instanceof IInvokedMethodListener) {
@@ -59,8 +59,8 @@ public class Helpers {
         }
     }
 
-    protected void queueAfterInvocationListener(IInvokedMethod iInvokedMethod,
-        ITestResult iTestResult, List<ITestNGListener> listeners) {
+    protected void queueAfterInvocationListener(IInvokedMethod iInvokedMethod, ITestResult iTestResult,
+        List<ITestNGListener> listeners) {
         for (ITestNGListener listener : listeners) {
             //Lets filter out only IInvokedMethodListener instances.
             if (listener instanceof IInvokedMethodListener) {
@@ -105,8 +105,7 @@ public class Helpers {
         try {
             Class<?> clazz = Class.forName(className);
             if (!ITestNGListener.class.isAssignableFrom(clazz)) {
-                throw new IllegalArgumentException(
-                    className + " does not implement a TestNG listener");
+                throw new IllegalArgumentException(className + " does not implement a TestNG listener");
             }
             return (ITestNGListener) clazz.newInstance();
         } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
@@ -118,8 +117,8 @@ public class Helpers {
         HashMap<String, String> logs) {
         String reportEventJson;
         try {
-            reportEventJson = new TestStatusManager().getReportEventJson(
-                AppiumDeviceManager.getAppiumDevice(), testStatus, testResult, logs);
+            reportEventJson = new TestStatusManager().getReportEventJson(AppiumDeviceManager.getAppiumDevice(),
+                testStatus, testResult, logs);
             new Api().post(url, reportEventJson);
         } catch (JsonProcessingException e) {
             e.printStackTrace();

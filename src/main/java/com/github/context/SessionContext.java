@@ -79,8 +79,7 @@ public class SessionContext {
             .equalsIgnoreCase("true")));
         if (reportPortalListener.isPresent() && isReportPortalEnabledInProperties) {
             reportPortalLaunchURL = String.format("%s/ui/#%s/launches/all/%s",
-                reportPortalProperties.getProperty("rp.endpoint"),
-                reportPortalProperties.getProperty("rp.project"),
+                reportPortalProperties.getProperty("rp.endpoint"), reportPortalProperties.getProperty("rp.project"),
                 System.getProperty("rp.launch.id"));
             LOGGER.info(String.format("**** ReportPortal URL - %s ****", reportPortalLaunchURL));
         }

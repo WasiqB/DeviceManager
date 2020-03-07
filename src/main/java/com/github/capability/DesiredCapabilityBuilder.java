@@ -34,7 +34,6 @@ public class DesiredCapabilityBuilder extends ArtifactsUploader {
     public static ThreadLocal<DesiredCapabilities> desiredCapabilitiesThreadLocal = new ThreadLocal<>();
 
     public DesiredCapabilityBuilder() {
-        super();
         availablePorts = new AvailablePorts();
     }
 
@@ -60,8 +59,7 @@ public class DesiredCapabilityBuilder extends ArtifactsUploader {
         }
     }
 
-    private void desiredCapabilityForCloud(String platform, String jsonPath,
-        DesiredCapabilities desiredCapabilities) {
+    private void desiredCapabilityForCloud(String platform, String jsonPath, DesiredCapabilities desiredCapabilities) {
         JSONObject platFormCapabilities = new JsonParser(jsonPath).getObjectFromJSON()
             .getJSONObject(platform);
         platFormCapabilities.keySet()
@@ -71,21 +69,19 @@ public class DesiredCapabilityBuilder extends ArtifactsUploader {
         AppiumDevice deviceProperty = AppiumDeviceManager.getAppiumDevice();
         desiredCapabilities.setCapability("device", deviceProperty.getDevice()
             .getName());
-        desiredCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME,
-            deviceProperty.getDevice()
-                .getName());
+        desiredCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME, deviceProperty.getDevice()
+            .getName());
         desiredCapabilities.setCapability(CapabilityType.BROWSER_NAME, "");
         desiredCapabilities.setCapability(CapabilityType.VERSION, deviceProperty.getDevice()
             .getOsVersion());
-        desiredCapabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION,
-            deviceProperty.getDevice()
-                .getOsVersion());
+        desiredCapabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, deviceProperty.getDevice()
+            .getOsVersion());
         desiredCapabilitiesThreadLocal.set(desiredCapabilities);
 
     }
 
-    private void capabilityObject(DesiredCapabilities desiredCapabilities,
-        JSONObject platFormCapabilities, String key) {
+    private void capabilityObject(DesiredCapabilities desiredCapabilities, JSONObject platFormCapabilities,
+        String key) {
         String appCapability = "app";
         if (appCapability.equals(key)) {
             Object values = platFormCapabilities.get(appCapability);
@@ -115,19 +111,15 @@ public class DesiredCapabilityBuilder extends ArtifactsUploader {
 
         platFormCapabilities.keySet()
             .forEach(key -> {
-                if ("browserName".equals(key) && "chrome".equals(
-                    platFormCapabilities.getString(key))) {
+                if ("browserName".equals(key) && "chrome".equals(platFormCapabilities.getString(key))) {
                     try {
                         AppiumDeviceManager.getAppiumDevice()
-                            .setChromeDriverPort(availablePorts.getAvailablePort(
-                                AppiumDeviceManager.getAppiumDevice()
-                                    .getHostName()));
-                        desiredCapabilities.setCapability("chromeDriverPort",
-                            AppiumDeviceManager.getAppiumDevice()
-                                .getChromeDriverPort());
+                            .setChromeDriverPort(availablePorts.getAvailablePort(AppiumDeviceManager.getAppiumDevice()
+                                .getHostName()));
+                        desiredCapabilities.setCapability("chromeDriverPort", AppiumDeviceManager.getAppiumDevice()
+                            .getChromeDriverPort());
                     } catch (Exception e) {
-                        throw new RuntimeException(
-                            "Unable to allocate chromedriver with unique port");
+                        throw new RuntimeException("Unable to allocate chromedriver with unique port");
                     }
                 }
                 capabilityObject(desiredCapabilities, platFormCapabilities, key);
@@ -148,33 +140,28 @@ public class DesiredCapabilityBuilder extends ArtifactsUploader {
                 .length() == IOSDeviceConfiguration.SIM_UDID_LENGTH) {
 
                 AppiumDevice deviceProperty = AppiumDeviceManager.getAppiumDevice();
-                desiredCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME,
-                    deviceProperty.getDevice()
-                        .getName());
-                desiredCapabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION,
-                    deviceProperty.getDevice()
-                        .getOsVersion());
-                desiredCapabilities.setCapability("webkitDebugProxyPort",
-                    new AvailablePorts().getAvailablePort(AppiumDeviceManager.getAppiumDevice()
+                desiredCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME, deviceProperty.getDevice()
+                    .getName());
+                desiredCapabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, deviceProperty.getDevice()
+                    .getOsVersion());
+                desiredCapabilities.setCapability("webkitDebugProxyPort", new AvailablePorts().getAvailablePort(
+                    AppiumDeviceManager.getAppiumDevice()
                         .getHostName()));
             } else {
-                desiredCapabilities.setCapability("webkitDebugProxyPort",
-                    new AvailablePorts().getAvailablePort(AppiumDeviceManager.getAppiumDevice()
+                desiredCapabilities.setCapability("webkitDebugProxyPort", new AvailablePorts().getAvailablePort(
+                    AppiumDeviceManager.getAppiumDevice()
                         .getHostName()));
             }
 
             desiredCapabilities.setCapability(IOSMobileCapabilityType.WDA_LOCAL_PORT, port);
-            desiredCapabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME,
-                AutomationName.IOS_XCUI_TEST);
-            desiredCapabilities.setCapability(MobileCapabilityType.UDID,
-                AppiumDeviceManager.getAppiumDevice()
-                    .getDevice()
-                    .getUdid());
-        }
-        desiredCapabilities.setCapability(MobileCapabilityType.UDID,
-            AppiumDeviceManager.getAppiumDevice()
+            desiredCapabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, AutomationName.IOS_XCUI_TEST);
+            desiredCapabilities.setCapability(MobileCapabilityType.UDID, AppiumDeviceManager.getAppiumDevice()
                 .getDevice()
                 .getUdid());
+        }
+        desiredCapabilities.setCapability(MobileCapabilityType.UDID, AppiumDeviceManager.getAppiumDevice()
+            .getDevice()
+            .getUdid());
         desiredCapabilitiesThreadLocal.set(desiredCapabilities);
     }
 
@@ -203,10 +190,9 @@ public class DesiredCapabilityBuilder extends ArtifactsUploader {
                     appPath = hostArtifact.getArtifactPath("IPA");
                 }
             } else {
-                if (isEmpty(appPath) || (((JSONObject) values).has(
-                    "simulator") || ((JSONObject) values).has("device"))) {
-                    appPath = hostArtifact.getArtifactPath(
-                        ((JSONObject) values).has("simulator") ? "APP" : "IPA");
+                if (isEmpty(appPath) || (((JSONObject) values).has("simulator") || ((JSONObject) values).has(
+                    "device"))) {
+                    appPath = hostArtifact.getArtifactPath(((JSONObject) values).has("simulator") ? "APP" : "IPA");
                 }
             }
         }
@@ -215,15 +201,13 @@ public class DesiredCapabilityBuilder extends ArtifactsUploader {
 
     private void appPackage(DesiredCapabilities desiredCapabilities) {
         if (System.getenv("APP_PACKAGE") != null) {
-            desiredCapabilities.setCapability(AndroidMobileCapabilityType.APP_PACKAGE,
-                System.getenv("APP_PACKAGE"));
+            desiredCapabilities.setCapability(AndroidMobileCapabilityType.APP_PACKAGE, System.getenv("APP_PACKAGE"));
         }
     }
 
     private void appPackageBundle(DesiredCapabilities iOSCapabilities) {
         if (System.getenv("APP_PACKAGE") != null) {
-            iOSCapabilities.setCapability(IOSMobileCapabilityType.BUNDLE_ID,
-                System.getenv("APP_PACKAGE"));
+            iOSCapabilities.setCapability(IOSMobileCapabilityType.BUNDLE_ID, System.getenv("APP_PACKAGE"));
         }
     }
 }

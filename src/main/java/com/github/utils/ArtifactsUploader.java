@@ -12,10 +12,10 @@ import org.springframework.util.ResourceUtils;
 
 public class ArtifactsUploader {
 
-    private static ArtifactsUploader  instance;
-    private        CapabilityManager  capabilityManager;
-    private        Api                api = new Api();
-    private        List<HostArtifact> hostArtifacts;
+    private static  ArtifactsUploader  instance;
+    private         CapabilityManager  capabilityManager;
+    private         Api                api = new Api();
+    private         List<HostArtifact> hostArtifacts;
 
     protected ArtifactsUploader() {
         try {
@@ -48,8 +48,7 @@ public class ArtifactsUploader {
     }
 
     private boolean isCloud(String hostMachine) {
-        return CapabilityManager.getInstance()
-            .isCloud(hostMachine);
+        return capabilityManager.isCloud(hostMachine);
     }
 
     public List<HostArtifact> getHostArtifacts() {
@@ -68,8 +67,8 @@ public class ArtifactsUploader {
         HashMap<String, String> artifactPaths = new HashMap<>();
         JSONObject android = capabilityManager.getCapabilityObjectFromKey("android");
         JSONObject iOSAppPath = capabilityManager.getCapabilityObjectFromKey("iOS");
-        if (android != null && android.has(app) && (platform.equalsIgnoreCase(
-            "android") || platform.equalsIgnoreCase("both"))) {
+        if (android != null && android.has(app) && (platform.equalsIgnoreCase("android") || platform.equalsIgnoreCase(
+            "both"))) {
             JSONObject androidApp = android.getJSONObject("app");
             String appPath = androidApp.getString("local");
             if (isCloud(hostMachine) && androidApp.has("cloud")) {

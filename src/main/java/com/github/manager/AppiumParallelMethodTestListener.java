@@ -84,8 +84,7 @@ public final class AppiumParallelMethodTestListener extends Helpers
             .isCloud();
     }
 
-    private void startReportLogging(ITestResult iTestResult)
-        throws IOException, InterruptedException {
+    private void startReportLogging(ITestResult iTestResult) throws IOException, InterruptedException {
         testLogger.startLogging(iTestResult);
     }
 
@@ -109,8 +108,7 @@ public final class AppiumParallelMethodTestListener extends Helpers
                     String url = "http://" + atdHost.get() + ":" + atdPort.get() + "/testresults";
                     sendResultsToAtdService(iTestResult, "Completed", url, logs);
                 }
-                throw new SkipException(
-                    "Skipped because property was set to :::" + annotation.platform());
+                throw new SkipException("Skipped because property was set to :::" + annotation.platform());
             }
         }
         new TestExecutionContext(iInvokedMethod.getTestMethod()
@@ -123,8 +121,7 @@ public final class AppiumParallelMethodTestListener extends Helpers
         try {
             AppiumDriver driver = AppiumDriverManager.getDriver();
             if (driver == null || driver.getSessionId() == null) {
-                deviceAllocationManager.allocateDevice(
-                    deviceAllocationManager.getNextAvailableDevice());
+                deviceAllocationManager.allocateDevice(deviceAllocationManager.getNextAvailableDevice());
                 appiumDriverManager.startAppiumDriverInstance();
                 if (!isCloudExecution()) {
                     startReportLogging(iTestResult);
@@ -144,10 +141,9 @@ public final class AppiumParallelMethodTestListener extends Helpers
     public void afterInvocation(IInvokedMethod iInvokedMethod, ITestResult iTestResult) {
         try {
             if (!isCloudExecution() && !isRetry(iTestResult)) {
-                HashMap<String, String> logs = testLogger.endLogging(iTestResult,
-                    AppiumDeviceManager.getAppiumDevice()
-                        .getDevice()
-                        .getDeviceModel());
+                HashMap<String, String> logs = testLogger.endLogging(iTestResult, AppiumDeviceManager.getAppiumDevice()
+                    .getDevice()
+                    .getDeviceModel());
                 if (atdHost.isPresent() && atdPort.isPresent()) {
                     String url = "http://" + atdHost.get() + ":" + atdPort.get() + "/testresults";
                     sendResultsToAtdService(iTestResult, "Completed", url, logs);

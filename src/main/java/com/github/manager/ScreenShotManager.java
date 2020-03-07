@@ -23,7 +23,6 @@ import org.testng.ITestResult;
  * Created by saikrisv on 26/04/17.
  */
 public class ScreenShotManager extends Helpers {
-
     private String     screenShotNameWithTimeStamp;
     private ImageUtils imageUtils;
     private String     capturedScreen;
@@ -67,8 +66,8 @@ public class ScreenShotManager extends Helpers {
         imageUtils = new ImageUtils();
     }
 
-    public String captureScreenShot(int status, String className, String screenShotName,
-        String methodName, String deviceModel) {
+    public String captureScreenShot(int status, String className, String screenShotName, String methodName,
+        String deviceModel) {
         String getDeviceModel = null;
         if (AppiumDriverManager.getDriver()
             .getSessionId() != null) {
@@ -80,13 +79,13 @@ public class ScreenShotManager extends Helpers {
             if (AppiumDeviceManager.getMobilePlatform()
                 .equals(MobilePlatform.ANDROID)) {
                 getDeviceModel = screenShotNameWithTimeStamp;
-                screenShotAndFrame(status, scrFile, methodName, className, getDeviceModel,
-                    "android", deviceModel, screenShotName);
+                screenShotAndFrame(status, scrFile, methodName, className, getDeviceModel, "android", deviceModel,
+                    screenShotName);
             } else if (AppiumDeviceManager.getMobilePlatform()
                 .equals(MobilePlatform.IOS)) {
                 getDeviceModel = screenShotNameWithTimeStamp;
-                screenShotAndFrame(status, scrFile, methodName, className, getDeviceModel, "iOS",
-                    deviceModel, screenShotName);
+                screenShotAndFrame(status, scrFile, methodName, className, getDeviceModel, "iOS", deviceModel,
+                    screenShotName);
             }
         }
         return getDeviceModel;
@@ -110,15 +109,14 @@ public class ScreenShotManager extends Helpers {
 
     private String currentDateAndTime() {
         LocalDateTime rightNow = LocalDateTime.now();
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofLocalizedDateTime(
-            FormatStyle.MEDIUM)
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
             .withLocale(Locale.getDefault());
         return dateTimeFormatter.format(rightNow)
             .replaceAll("[- .:,]", "_");
     }
 
-    private void screenShotAndFrame(int status, File scrFile, String methodName, String className,
-        String model, String platform, String deviceModel, String screenShotName) {
+    private void screenShotAndFrame(int status, File scrFile, String methodName, String className, String model,
+        String platform, String deviceModel, String screenShotName) {
         String udid = AppiumDeviceManager.getAppiumDevice()
             .getDevice()
             .getUdid();
@@ -133,11 +131,10 @@ public class ScreenShotManager extends Helpers {
             "screenshot/" + platform + "/" + udid + "/" + className + "/" + methodName + "/" + screenShotNameWithTimeStamp + "-" + screenShotName + "_failed.jpeg");
 
         try {
-            File framePath = new File(
-                System.getProperty("user.dir") + "/src/test/resources/frames/");
+            File framePath = new File(System.getProperty("user.dir") + "/src/test/resources/frames/");
             if (status == ITestResult.FAILURE) {
-                FileUtils.copyFile(scrFile, new File(System.getProperty(
-                    "user.dir") + FileLocations.OUTPUT_DIRECTORY + getFailedScreen().trim()));
+                FileUtils.copyFile(scrFile, new File(
+                    System.getProperty("user.dir") + FileLocations.OUTPUT_DIRECTORY + getFailedScreen().trim()));
             } else {
                 String capturedScreenshotPath = System.getProperty(
                     "user.dir") + FileLocations.OUTPUT_DIRECTORY + getCapturedScreen().trim();
@@ -158,15 +155,13 @@ public class ScreenShotManager extends Helpers {
                                 if (status == ITestResult.FAILURE) {
                                     String screenToFrame = System.getProperty(
                                         "user.dir") + FileLocations.OUTPUT_DIRECTORY + getFailedScreen();
-                                    imageUtils.wrapDeviceFrames(files1[i].toString(), screenToFrame,
-                                        System.getProperty(
-                                            "user.dir") + FileLocations.OUTPUT_DIRECTORY + getFramedFailedScreen());
+                                    imageUtils.wrapDeviceFrames(files1[i].toString(), screenToFrame, System.getProperty(
+                                        "user.dir") + FileLocations.OUTPUT_DIRECTORY + getFramedFailedScreen());
                                 } else {
                                     String screenToFrame = System.getProperty(
                                         "user.dir") + FileLocations.OUTPUT_DIRECTORY + getCapturedScreen();
-                                    imageUtils.wrapDeviceFrames(files1[i].toString(), screenToFrame,
-                                        System.getProperty(
-                                            "user.dir") + FileLocations.OUTPUT_DIRECTORY + getFramedCapturedScreen());
+                                    imageUtils.wrapDeviceFrames(files1[i].toString(), screenToFrame, System.getProperty(
+                                        "user.dir") + FileLocations.OUTPUT_DIRECTORY + getFramedCapturedScreen());
                                 }
 
                                 break;
